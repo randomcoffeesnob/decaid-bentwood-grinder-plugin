@@ -1,0 +1,126 @@
+{
+  "id": "com.bentwood.grinder",
+  "author": "Yannick Dietler",
+  "name": "Bentwood H75 Grinder",
+  "description": "Connects to a Bentwood grinder over its local WebSocket API and registers it as a Decaid grinder device (grind state and burr gap), with a device settings page, Streamline dashboard controls on the Grind and Dose tiles, dose-to-target-weight sync, and HTTP endpoints for telemetry and recipe editing.",
+  "version": "0.6.0",
+  "apiVersion": 1,
+  "permissions": [
+    "log",
+    "api",
+    "emit",
+    "pluginStorage",
+    "network.websocket",
+    "events.workflow"
+  ],
+  "drivers": [
+    {
+      "id": "bentwood",
+      "type": "grinder",
+      "capabilities": [
+        "grindSetting",
+        "rpmControl"
+      ],
+      "controls": {
+        "grindSetting": { "kind": "numeric", "min": 10, "max": 600, "step": 5 },
+        "rpmControl": { "kind": "numeric", "min": 1400, "max": 1400 }
+      },
+      "surfaces": [
+        {
+          "id": "settings",
+          "role": "settings",
+          "endpoint": "device-settings",
+          "label": "Grinder settings"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "GrinderIp": {
+      "type": "string",
+      "label": "Grinder IP address",
+      "description": "IP address or hostname of the Bentwood grinder, e.g. 192.168.1.123. Applied to the grinder device when changed; an address saved later in the grinder's Device settings takes over until this changes again.",
+      "default": "",
+      "secure": false
+    },
+    "GrinderPort": {
+      "type": "number",
+      "label": "Grinder port",
+      "description": "WebSocket port exposed by the grinder.",
+      "default": 81,
+      "secure": false
+    }
+  },
+  "api": [
+    {
+      "id": "device-settings",
+      "type": "http",
+      "data": {}
+    },
+    {
+      "id": "recipes",
+      "type": "http",
+      "data": {}
+    },
+    {
+      "id": "request-recipes",
+      "type": "http",
+      "data": {}
+    },
+    {
+      "id": "select-recipe",
+      "type": "http",
+      "data": {}
+    },
+    {
+      "id": "burrgap",
+      "type": "http",
+      "data": {}
+    },
+    {
+      "id": "targetweight",
+      "type": "http",
+      "data": {}
+    },
+    {
+      "id": "sensors",
+      "type": "http",
+      "data": {}
+    },
+    {
+      "id": "set-burr-gap",
+      "type": "http",
+      "data": {}
+    },
+    {
+      "id": "set-target-weight",
+      "type": "http",
+      "data": {}
+    },
+    {
+      "id": "skin-target-weight",
+      "type": "http",
+      "data": {}
+    },
+    {
+      "id": "skin",
+      "type": "http",
+      "data": {}
+    },
+    {
+      "id": "skin-burr-gap",
+      "type": "http",
+      "data": {}
+    },
+    {
+      "id": "skin-changed",
+      "type": "websocket",
+      "data": {
+        "what": {
+          "type": "string",
+          "description": "Always \"skin\": only the plugin's skin surfaces changed, not the workflow"
+        }
+      }
+    }
+  ]
+}
